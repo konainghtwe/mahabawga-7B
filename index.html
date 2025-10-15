@@ -6,7 +6,7 @@
     <title>မဟာဘောဂ Residence - လူမနေရသေး အခန်းအသစ်ရောင်းမည်</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styles */
+       /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -136,7 +136,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        /* Image Gallery Placeholder */
+        /* Image Gallery */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -153,12 +153,108 @@
             justify-content: center;
             color: #777;
             overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
         }
         
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        
+         /* Lightbox Modal - FIXED */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .lightbox-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            pointer-events: none; /* Allow clicks to pass through to modal */
+        }
+        
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+            pointer-events: auto; /* Re-enable pointer events for the image */
+        }
+        
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 1001;
+            pointer-events: auto; /* Ensure close button is clickable */
+        }
+        
+        .close-lightbox:hover {
+            color: #ffd700;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+        
+        .lightbox-nav button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+            pointer-events: auto; /* Re-enable pointer events for buttons */
+        }
+        
+        .lightbox-nav button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        
+        .image-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            pointer-events: none; /* Don't interfere with clicks */
         }
         
         /* Map Section */
@@ -216,6 +312,10 @@
             .map-container {
                 height: 300px;
             }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
         
         /* Tag Section */
@@ -248,7 +348,7 @@
     <header>
         <div class="container">
             <h1>မဟာဘောဂ Residence - လူမနေရသေး အခန်းအသစ်ရောင်းမည်</h1>
-            <div class="price">ဈေးနှုန်း - ၃,၀၀၀ သိန်း (ညှိနှိုင်း)</div>
+            <div class="price">ဈေးနှုန်း - ၃,၀၀၀ သိန်း</div>
             <p>တည်နေရာ: no 100, မဟာဘောဂလမ်း၊ မရမ်းကုန်းမြို့နယ်</p>
         </div>
     </header>
@@ -373,33 +473,56 @@
         <section class="content-section">
             <h2><i class="fas fa-camera"></i> ဓာတ်ပုံများ</h2>
             <div class="gallery">
-                <div class="gallery-item">
-                    <i class="fas fa-home"></i>
+                <div class="gallery-item" onclick="openLightbox(0)">
+                    <img src="imgs/photo_2568-10-15 18.55.00.jpeg" alt="Floor Plan"> 
                 </div>
-                <div class="gallery-item">
-                    <i class="fas fa-bed"></i>
+                <div class="gallery-item" onclick="openLightbox(1)">
+                    <img src="imgs/photo_2568-10-15 18.55.04.jpeg" alt="Front View"> 
                 </div>
-                <div class="gallery-item">
-                    <i class="fas fa-couch"></i>
+                <div class="gallery-item" onclick="openLightbox(2)">
+                    <img src="imgs/photo_2568-10-15 18.54.35.jpeg" alt="Living Room">   
                 </div>
-                <div class="gallery-item">
-                    <i class="fas fa-utensils"></i>
+                <div class="gallery-item" onclick="openLightbox(3)">
+                    <img src="imgs/photo_2568-10-15 18.54.39.jpeg" alt="Living Room"> 
                 </div>
-                <div class="gallery-item">
-                    <i class="fas fa-bath"></i>
+                <div class="gallery-item" onclick="openLightbox(4)">
+                    <img src="imgs/photo_2568-10-15 18.54.41.jpeg" alt="Living Room"> 
                 </div>
-                <div class="gallery-item">
-                    <i class="fas fa-building"></i>
+                <div class="gallery-item" onclick="openLightbox(5)">
+                    <img src="imgs/photo_2568-10-15 18.54.44.jpeg" alt="Living Room"> 
                 </div>
+                <div class="gallery-item" onclick="openLightbox(6)">
+                    <img src="imgs/photo_2568-10-15 18.54.46.jpeg" alt="Living Room"> 
+                </div>
+                <div class="gallery-item " onclick="openLightbox(7)">
+                    <img src="imgs/photo_2568-10-15 18.54.48.jpeg" alt="Single Bedroom"> 
+                </div>
+
+                <div class="gallery-item" onclick="openLightbox(8)">
+                    <img src="imgs/photo_2568-10-15 18.54.49.jpeg" alt="Living Room">   
+                </div>
+                <div class="gallery-item" onclick="openLightbox(9)">
+                    <img src="imgs/photo_2568-10-15 18.54.51.jpeg" alt="Master Bedroom"> 
+                </div>
+                <div class="gallery-item" onclick="openLightbox(10)">
+                    <img src="imgs/photo_2568-10-15 18.54.53.jpeg" alt="Living Room"> 
+                </div>
+                <div class="gallery-item" onclick="openLightbox(11)">
+                    <img src="imgs/photo_2568-10-15 18.54.55.jpeg" alt="Living Room"> 
+                </div>
+                <div class="gallery-item" onclick="openLightbox(12)">
+                    <img src="imgs/photo_2568-10-15 18.54.56.jpeg" alt="Living Room"> 
+                </div>
+                
             </div>
-            <p style="text-align: center; margin-top: 10px; color: #666;">ဓာတ်ပုံများကို ဆက်သွယ်မေးမြန်းပြီး ကြည့်ရှုနိုင်ပါသည်။</p>
+            <!-- <p style="text-align: center; margin-top: 10px; color: #666;">ဓာတ်ပုံများကို ဆက်သွယ်မေးမြန်းပြီး ကြည့်ရှုနိုင်ပါသည်။</p> -->
         </section>
 
         <!-- Contact Section -->
         <section class="contact-section">
             <h2><i class="fas fa-phone-alt"></i> ဆက်သွယ်ရန်</h2>
             <div class="contact-info">
-                <p><strong>📞 Viber/Phone:</strong> 09 400020363</p>
+                <p><strong>📞 Viber:</strong> 09 400020363</p>
             </div>
             <p>ဈေးနှုန်းညှိနှိုင်းရန်နှင့် အသေးစိတ်ကြည့်ရှုရန် ဆက်သွယ်မေးမြန်းနိုင်ပါသည်။</p>
             <a href="viber://contact?number=%2B959400020363" class="contact-button">Viber ဖြင့် ဆက်သွယ်ရန်</a>
@@ -409,9 +532,133 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>မဟာဘောဂရီဆီဒင်း - လူမနေရသေး အခန်းအသစ်</p>
-            <p>© 2023 - All Rights Reserved</p>
+            <p>မဟာဘောဂ Residence - လူမနေရသေး အခန်းအသစ်</p>
+            <p>© 2025 - Naing Htwe Oo - All Rights Reserved</p>
         </div>
     </footer>
+
+    <!-- Lightbox Modal -->
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+        <span class="close-lightbox" onclick="event.stopPropagation(); closeLightbox();">&times;</span>
+        <div class="lightbox-content" onclick="event.stopPropagation();">
+            <div class="lightbox-nav">
+                <button onclick="event.stopPropagation(); changeImage(-1)">&#10094;</button>
+                <button onclick="event.stopPropagation(); changeImage(1)">&#10095;</button>
+            </div>
+            <img class="lightbox-img" id="lightboxImage" src="" alt="" onclick="event.stopPropagation();">
+            <div class="image-counter" id="imageCounter"></div>
+        </div>
+    </div>
+    <script>
+        // Image data for the gallery
+        const galleryImages = [
+            {
+                src: "imgs/photo_2568-10-15 18.55.00.jpeg",
+                alt: "Living Room"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.55.04.jpeg",
+                alt: "Master Bedroom"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.35.jpeg",
+                alt: "Single Bedroom"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.39.jpeg",
+                alt: "Kitchen"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.41.jpeg",
+                alt: "Bathroom"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.44.jpeg",
+                alt: "Building Exterior"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.46.jpeg",
+                alt: "View from Balcony"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.48.jpeg",
+                alt: "Living Room"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.49.jpeg",
+                alt: "Master Bedroom"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.51.jpeg",
+                alt: "Living Room"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.53.jpeg",
+                alt: "Living Room"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.55.jpeg",
+                alt: "Living Room"
+            },
+            {
+                src: "imgs/photo_2568-10-15 18.54.56.jpeg",
+                alt: "Living Room"
+            }
+        ];
+
+        let currentImageIndex = 0;
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const imageCounter = document.getElementById('imageCounter');
+
+        // Open lightbox with selected image
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightboxImage();
+            lightboxModal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        // Close lightbox
+        function closeLightbox() {
+            lightboxModal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+
+        // Change image in lightbox
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            // Loop around if at the beginning or end
+            if (currentImageIndex >= galleryImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = galleryImages.length - 1;
+            }
+            
+            updateLightboxImage();
+        }
+
+        // Update lightbox image and counter
+        function updateLightboxImage() {
+            lightboxImage.src = galleryImages[currentImageIndex].src;
+            lightboxImage.alt = galleryImages[currentImageIndex].alt;
+            imageCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (lightboxModal.style.display === 'block') {
+                if (event.key === 'Escape') {
+                    closeLightbox();
+                } else if (event.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (event.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
